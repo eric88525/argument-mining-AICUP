@@ -77,7 +77,9 @@ python create_debate_datas.py
 
 # 模型訓練
 
-執行 shellscript 來訓練模型  
+執行 shellscript 來訓練模型，全部執行完成會有20個模型
++ 10 個沒加入額外資料訓練的模型
++ 10 個加入額外資料訓練的模型
 ```
 sh scripts/train.sh
 ```
@@ -119,9 +121,15 @@ Fold_{1~10}/{model}.ckpt
 |extra_train_file|額外訓練資料(csv), "None" 為不使用額外資料|
 
 
+## 調整 Batch 處理方式
+
+batch 的運算都在 deberta_interface.py 內的 `training_step()` ,`validation_step()`, `test_step()` 執行，可依需求調整模型對 batch 的處理方式。
+
 # 多模型投票
 
 將訓練好的模型路徑加入 MODEL_PATH 內
++ 我們所上傳的最好 Public 成績是由 #模型訓練 階段所訓練出來的20個模型 ensemble 而來
+  
 ```python
  # a list that contains the path of all models
 MODEL_PATH = [
@@ -138,7 +146,7 @@ sh scripts/vote.sh
 |-|-|
 |test_csv_path| 官方提供的 batch_answer.csv|
 |vote_output| 輸出的預測 csv 檔|
-
+|batch_size| batch size|
 # Raytune
 
 [RayTune + Pytorch lightning](https://docs.ray.io/en/latest/tune/examples/tune-pytorch-lightning.html)
@@ -166,6 +174,4 @@ sh scripts/tune.sh
 |-|-|
 |tune_num_samples| 要進行幾次的參數搜索|
 |tune_num_epochs| 每次搜索時，訓練的最大 epoch|
-
-大多數參數跟訓練模型階段相同
 
