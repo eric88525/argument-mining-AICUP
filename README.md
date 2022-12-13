@@ -7,7 +7,7 @@
 |TEAM_2329| 0.87341|  10|
 
 # Overview
-
+![](Pictures/model.jpg)
 ## 資料處理
 +  10-Fold cross-validation
 +  從  [DebateSum](https://huggingface.co/datasets/Hellisotherpeople/DebateSum) 引入額外訓練資料，並用 [sentence-transformers](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2) 找出語意相關的論述產生額外 (q, r, AGREE) 訓練資料
@@ -21,6 +21,8 @@
 ## 多模型投票
 + 將 N 個模型的預測結果疊加並輸出預測
 
+## Raytune
+最佳超參數搜索
 ---
 
 # 環境建置
@@ -74,6 +76,9 @@ python create_train_val.py
 ```
 python create_debate_datas.py
 ```
+
+![](Pictures/extra_datas.jpg)
+
 
 # 模型訓練
 
