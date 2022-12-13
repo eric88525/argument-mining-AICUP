@@ -19,7 +19,6 @@ os.environ["TOKENIZERS_PARALLELISM"] = "true"
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
-
 def load_callbacks():
     callbacks = []
     callbacks.append(
@@ -82,7 +81,7 @@ def tune_asha(args):
 
     # edit this to your own search space
     search_config = {
-        "batch_size": 8,
+        "batch_size": tune.choice([8, 4, 2]),
         "lr": tune.loguniform(5e-5, 3e-4),
         "ce_weight": tune.choice([
             [0.6999, 1.755],  # [0.1, 0.9] , [0.5, 0.5]
@@ -116,7 +115,8 @@ def tune_asha(args):
                         scheduler=scheduler,
                         progress_reporter=reporter,
                         name=args.exp_name,
-                        fail_fast=True)
+                        fail_fast=True,
+                        )
 
     print("Best hyperparameters found were: ", analysis.best_config)
 

@@ -157,9 +157,15 @@ search_config = {
     "accu_batches": 4
 }
 ```
-執行 script 來自動找出最佳參數
+執行 script 來自動找出最佳參數  
 ```
+sh scripts/tune.sh
 ```
 
+|參數|說明|
+|-|-|
+|tune_num_samples| 要進行幾次的參數搜索|
+|tune_num_epochs| 每次搜索時，訓練的最大 epoch|
 
+大多數參數跟訓練模型階段相同
 

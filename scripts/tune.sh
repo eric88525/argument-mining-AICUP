@@ -38,9 +38,9 @@ do
 
     extra_train_file="None"
 
-    pred_csv="${BASEDIR}/tune_${exp_name}.csv"
+    pred_csv="${BASEDIR}/pred/tune_${exp_name}.csv"
 
-    python tune.py \
+    python "${BASEDIR}/tune.py" \
         --exp_name $exp_name \
         --num_workers $num_workers \
         --seed $seed \
