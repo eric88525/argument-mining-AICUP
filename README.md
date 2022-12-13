@@ -101,8 +101,8 @@ Fold_{1~10}/{model}.ckpt
 |seed| seed|
 |lr| 學習率|
 |max_seq_len| 最大輸入長度(DeBERTa 可以輸入任意長度)|
-|dataset| 使用 data 資料夾下的哪一個 dataset。 例如: deberta_v1 ，那就會從 data.deberta_v1 import DebertaV1 來實體化 |
-|model|使用 model 資料夾下的哪個 model， 例如: deberta_v1 ，那就會從 model.deberta_v1 import DebertaV1 來實體化|
+|dataset| 使用 data 資料夾下的哪一個 dataset。 例如: deberta_v1 ，那就會從 data.deberta_v1 import DebertaV1 建立實體 |
+|model|使用 model 資料夾下的哪個 model， 例如: deberta_v1 ，那就會從 model.deberta_v1 import DebertaV1 建立實體|
 |pretrained_model| 預訓練模型|
 |lr_scheduler| learning rate scheduler|
 |lr_warmup_ratio| linear warmup 的 warm up 占比|
@@ -116,7 +116,7 @@ Fold_{1~10}/{model}.ckpt
 |max_epochs|最大訓練 epoch |
 |train_csv_path| 切分好的 training set|
 |val_csv_path|切分好的 validation set|
-|extra_train_file|額外訓練資料(csv)|
+|extra_train_file|額外訓練資料(csv), "None" 為不使用額外資料|
 
 
 # 多模型投票
@@ -138,3 +138,28 @@ sh scripts/vote.sh
 |-|-|
 |test_csv_path| 官方提供的 batch_answer.csv|
 |vote_output| 輸出的預測 csv 檔|
+
+# Raytune
+
+[RayTune + Pytorch lightning](https://docs.ray.io/en/latest/tune/examples/tune-pytorch-lightning.html)
+
+修改 tune.py 內的 search_config 來定義參數搜索範圍
++ 搜索範圍的自訂可參考 [Search Space API](https://docs.ray.io/en/latest/tune/api_docs/search_space.html#tune-choice)
+
+```python
+search_config = {
+    "batch_size": 8,
+    "lr": tune.loguniform(5e-5, 3e-4),
+    "ce_weight": tune.choice([
+        [0.6999, 1.755]
+    ]),
+    "lr_warmup_ratio": 0.1,
+    "accu_batches": 4
+}
+```
+執行 script 來自動找出最佳參數
+```
+```
+
+
+
