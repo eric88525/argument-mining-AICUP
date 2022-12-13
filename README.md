@@ -83,8 +83,8 @@ python create_debate_datas.py
 # 模型訓練
 
 執行 shellscript 來訓練模型，全部執行完成會有20個模型
-+ 10 個沒加入額外資料訓練的模型
-+ 10 個加入額外資料訓練的模型
++ 10 個沒加入額外資料訓練的模型 (上傳成績: Public: 0.815, Private: 0.867)
++ 10 個加入額外資料訓練的模型 (上傳成績: Public: 0.818, Private: 0.871)
 ```
 sh scripts/train.sh
 ```
@@ -133,7 +133,7 @@ batch 的運算都在 deberta_interface.py 內的 `training_step()` ,`validation
 # 多模型投票
 
 將訓練好的模型路徑加入 MODEL_PATH 內
-+ 我們所上傳的最好 Public 成績是由 #模型訓練 階段所訓練出來的20個模型 ensemble 而來
++ 我們所上傳的最好 Public 成績是由 #模型訓練 階段所訓練出來的20個模型 ensemble 而來 (上傳成績: Public: 0.820, Private: 0.871)
   
 ```python
  # a list that contains the path of all models
