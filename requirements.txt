@@ -1,0 +1,18 @@
+# if you are using 3090 graphics card, you should install torch with cu116
+# torch --extra-index-url https://download.pytorch.org/whl/cu116
+torch
+pathlib2
+transformers==4.20.1
+ipykernel==6.15.1
+datasets==2.3.2
+pytorch-lightning==1.6.5
+ipywidgets==7.7.1
+seqeval==0.0.3
+matplotlib==3.5.2
+nltk==3.7
+accelerate
+sentencepiece
+
+
+
+
