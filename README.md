@@ -22,8 +22,7 @@
 + 將 N 個模型的預測結果疊加並輸出預測
 
 ## Raytune
-最佳超參數搜索
----
++ 最佳超參數搜索
 
 # 環境建置
 
@@ -49,9 +48,9 @@ pip install -r requirements.txt
 |rr|r 的正確標記|
 |s|議論關係 (AGREE, DISAGREE)|
 
-我們將訓練資料切成 10 份做 10-Fold Cross-Validation，最後上傳 10 個模型的投票結果  
+我們將訓練資料切成 10 份做 10-Fold Cross-Validation，最後上傳 10 個模型的 ensemble 結果  
 + Trainging Set 和 Validation Set 的切分比例為 9:1 ， 每個 Fold 的 Validation set 沒有交集  
-+ 執行以下指令產生 training set 和 testing set，資料儲存在 dataset/train/ 和 dataset/val/ 下  
++ 執行以下指令產生 training set 和 validation set，資料儲存在 dataset/train/ 和 dataset/val/ 下  
 ```
 python create_train_val.py
 ```
@@ -72,9 +71,14 @@ python create_train_val.py
 1. 論述和其 embedding 會先儲存在 `dataset/embeds/doc_extract_emb_300` 
 2. 對 embeddings 進行論述配對，儲存結果為 `dataset/len_300_th_0.8.csv`
 3. 將 csv 分成10 Folds，儲存在 `dataset/len_300_th_0.8` 資料夾下的 `extra_1.csv` ~ `extra_10.csv`
-
 ```
 python create_debate_datas.py
+```
+如果要更改最大 token 數量和配對 threadhold 請調整 `create_debate_datas.py` 內的以下部分
+
+```python
+MAX_WORDS = 300
+THREADHOLD = 0.8
 ```
 
 ![](Pictures/extra_datas.jpg)
@@ -97,7 +101,7 @@ sh scripts/train.sh
 
 模型訓練完成後，會儲存在  
 `saved_models/deberta_None_no_same_10fold_2022_super_eval_10fold_2022/` 下的  
-Fold_{1~10}/{model}.ckpt
+`Fold_{1~10}/{model}.ckpt`
 
 參數說明
 |參數|說明|
@@ -108,8 +112,8 @@ Fold_{1~10}/{model}.ckpt
 |seed| seed|
 |lr| 學習率|
 |max_seq_len| 最大輸入長度(DeBERTa 可以輸入任意長度)|
-|dataset| 使用 data 資料夾下的哪一個 dataset。 例如: deberta_v1 ，那就會從 data.deberta_v1 import DebertaV1 建立實體 |
-|model|使用 model 資料夾下的哪個 model， 例如: deberta_v1 ，那就會從 model.deberta_v1 import DebertaV1 建立實體|
+|dataset| 使用 data 資料夾下的哪一個 dataset。 例如: 傳入 deberta_v1 ，那就會從 data.deberta_v1 import DebertaV1 建立實體 |
+|model|使用 model 資料夾下的哪個 model， 例如: 傳入 deberta_v1 ，那就會從 model.deberta_v1 import DebertaV1 建立實體|
 |pretrained_model| 預訓練模型|
 |lr_scheduler| learning rate scheduler|
 |lr_warmup_ratio| linear warmup 的 warm up 占比|
@@ -126,7 +130,7 @@ Fold_{1~10}/{model}.ckpt
 |extra_train_file|額外訓練資料(csv), "None" 為不使用額外資料|
 
 
-## 調整 Batch 處理方式
+## 調整 Batch 運算
 
 batch 的運算都在 deberta_interface.py 內的 `training_step()` ,`validation_step()`, `test_step()` 執行，可依需求調整模型對 batch 的處理方式。
 
